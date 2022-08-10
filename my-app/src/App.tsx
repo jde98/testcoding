@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 
 interface ITodo {
-  id: number;
+  id: any;
   text: string;
   checked: boolean;
 }
 
 const App = () => {
-  const [todoData, setTodoData] = useState<Array<ITodo>>([
+  const [todoData, setTodoData] = useState<ITodo[]>([
     {
       id: 1,
       text: "공부하기",
@@ -36,18 +36,28 @@ const App = () => {
     },
   ]);
 
+  const nextId = useRef<number>(6)
+
   const [todoAddText, setTodoAddText] = useState<string>("");
 
   const handleTodoAdd = () => {
-    let copyTodoData = [...todoData];
+    const body = {
+      id: nextId,
+      text : todoAddText,
+      checked : false
+    }
 
-    copyTodoData.push({
-      id: copyTodoData.length + 2,
-      text: todoAddText,
-      checked: false,
-    });
+    setTodoData([...todoData , body])
+    nextId.current += 1;
+    // let copyTodoData = [...todoData];
 
-    setTodoData(copyTodoData);
+    // copyTodoData.push({
+    //   id: copyTodoData.length + 2,
+    //   text: todoAddText,
+    //   checked: false,
+    // });
+
+    // setTodoData(copyTodoData);
   };
 
   const handleTodoClear = () => {};
